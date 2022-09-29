@@ -18,7 +18,8 @@ resource "aws_sqs_queue" "this" {
   fifo_throughput_limit       = var.fifo_throughput_limit
 
   kms_master_key_id                 = var.kms_master_key_id
-  kms_data_key_reuse_period_seconds = var.kms_data_key_reuse_period_seconds
+  kms_data_key_reuse_period_seconds = var.kms_master_key_id != null ? var.kms_data_key_reuse_period_seconds : null
+  sqs_managed_sse_enabled           = var.kms_master_key_id == null ? true : null
 
   tags = var.tags
 }
